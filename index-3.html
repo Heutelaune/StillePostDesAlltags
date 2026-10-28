@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stille Post des Alltags</title>
+<style>
+:root{--bg:#E4EEFF;--ink:#0B1F3A;--or:#FF6A2B;--mu:#5B6B85;--ln:rgba(11,31,58,.13);--wh:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+#app{max-width:620px;margin:0 auto;padding:20px 18px 40px}
+.hide{display:none!important}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.logo{font-weight:800;letter-spacing:-.03em;font-size:20px}
+.pill{background:var(--wh);border:1.5px solid var(--ln);border-radius:999px;padding:5px 14px;font-weight:700;font-size:14px;letter-spacing:.1em}
+.stage{background:var(--wh);border:1.5px solid var(--ln);border-radius:32px;padding:28px 24px}
+h1{font-size:clamp(46px,12vw,72px);line-height:.92;letter-spacing:-.05em;margin:8px 0 14px;font-weight:800}
+h1 span{display:block;font-size:.34em;letter-spacing:0;color:var(--mu);font-weight:600;margin-top:10px}
+h2{font-size:26px;line-height:1.15;letter-spacing:-.02em;margin:14px 0 6px}
+p{margin:0 0 14px}.mu{color:var(--mu);font-size:15px}
+button,input{font:inherit;border:0}
+input{width:100%;background:#F0F4FB;border-radius:16px;padding:15px 18px;color:var(--ink);border:1.5px solid transparent}
+input:focus{border-color:var(--ink);outline:0}
+button{cursor:pointer;font-weight:700}
+.cta{width:100%;padding:17px;border-radius:18px;background:var(--ink);color:var(--wh);font-size:18px;margin-top:10px}
+.cta.or{background:var(--or)}
+.cta:disabled{opacity:.3;cursor:not-allowed}
+.ghost{background:transparent;border:1.5px solid var(--ln);color:var(--ink);border-radius:14px;padding:11px 16px}
+:focus-visible{outline:3px solid var(--or);outline-offset:3px}
+.or-line{display:flex;align-items:center;gap:12px;color:var(--mu);font-size:14px;margin:18px 0 8px}.or-line:before,.or-line:after{content:"";flex:1;height:1.5px;background:var(--ln)}
+.join{display:flex;gap:10px}.join input{text-transform:uppercase;letter-spacing:.3em;font-weight:800;text-align:center}.join button{background:var(--ink);color:var(--wh);border-radius:16px;padding:0 22px}
+.hero{display:flex;gap:4px;align-items:center;height:60px;margin:18px 0 6px}
+.hero i,.bars i,.live i{flex:1;background:var(--ink);border-radius:9px;min-width:3px}
+.hero i{height:30%;animation:eq 1.2s ease-in-out infinite}
+.hero i:nth-child(3n){animation-delay:-.4s;background:var(--or)}.hero i:nth-child(3n+1){animation-delay:-.8s}.hero i:nth-child(5n){animation-duration:.8s}
+@keyframes eq{50%{height:100%}}
+.code{display:flex;gap:10px;margin:8px 0 16px}
+.code b{flex:1;text-align:center;background:#F0F4FB;border-radius:16px;padding:12px 0;font-size:36px;letter-spacing:0}
+.avs{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 6px}
+.av{width:46px;height:46px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:800;position:relative;flex:none}
+.avs .a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--mu);width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.a.todo .av{opacity:.28}.a.done .av:after{content:"✓";position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:var(--ink);font-size:12px;display:grid;place-items:center}
+.a.cur .av{box-shadow:0 0 0 4px var(--wh),0 0 0 7px var(--c);animation:ring 1.4s infinite}
+@keyframes ring{50%{box-shadow:0 0 0 4px var(--wh),0 0 0 12px transparent}}
+.steps{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+.st{font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;background:#F0F4FB;color:var(--mu)}
+.st.on{background:var(--ink);color:var(--wh)}.st.ok{background:#D5F5E6;color:#0B5B3A}
+.vm{display:flex;align-items:center;gap:14px;background:#F0F4FB;border-radius:22px;padding:12px 16px;margin:18px 0}
+.rb{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;flex:none;display:grid;place-items:center}
+.wave{position:relative;flex:1;height:44px}
+.bars{position:absolute;inset:0;display:flex;align-items:center;gap:3px}
+.bars i{background:#B6C3D9;align-self:center}
+.bars.fg{clip-path:inset(0 100% 0 0)}.bars.fg i{background:var(--or)}
+.wave.play .fg{animation:fill var(--d) linear forwards}
+@keyframes fill{to{clip-path:inset(0 0 0 0)}}
+.mic{display:block;margin:20px auto 8px;width:104px;height:104px;border-radius:50%;background:var(--or);color:#fff;display:grid;place-items:center;position:relative}
+.mic.on:before,.mic.on:after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--or);animation:rp 1.5s infinite}
+.mic.on:after{animation-delay:.75s}
+@keyframes rp{from{transform:scale(1);opacity:.8}to{transform:scale(1.7);opacity:0}}
+.ml{text-align:center;font-weight:700;margin-bottom:6px}
+.said{background:#FFF1EA;border-radius:22px;padding:16px 18px;margin:12px 0}
+.said q{display:block;font-size:22px;font-weight:700;line-height:1.3;quotes:"„" "“";margin:4px 0 10px}
+.cf{height:8px;background:#F6D8CB;border-radius:9px;overflow:hidden}.cf i{display:block;height:100%;background:var(--or);width:0;transition:width .5s}
+details{margin-top:14px;color:var(--mu);font-size:15px}summary{cursor:pointer}
+details .join{margin-top:10px}details .join input{letter-spacing:0;text-align:left;font-weight:400;text-transform:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.stats div{background:#F0F4FB;border-radius:18px;padding:12px;font-size:13px;color:var(--mu);line-height:1.3}.stats b{display:block;font-size:28px;color:var(--ink);letter-spacing:-.03em}
+svg{width:100%;height:auto;display:block}
+.thread{display:flex;flex-direction:column;gap:18px;margin:22px 0}
+.msg{display:flex;gap:12px;animation:pop .4s both}.msg.now .bub{outline:3px solid var(--or)}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}}
+.body{flex:1;min-width:0}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.chip{background:var(--c);color:#fff;border-radius:999px;font-size:13px;font-weight:700;padding:2px 12px}
+.heard{font-size:14px;color:var(--mu);margin:0 0 6px;padding-left:2px}
+.bub{background:var(--wh);border:1.5px solid var(--ln);border-radius:22px 22px 22px 6px;padding:14px 18px;font-size:19px;font-weight:600;line-height:1.3}
+.bub small,.out small{display:block;font-weight:500;font-size:13px;color:var(--mu);margin-top:4px}
+.out{display:flex;gap:12px;align-items:center;background:var(--c);color:#fff;border-radius:6px 22px 22px 22px;padding:12px 16px;margin-top:6px}
+.out .rb{width:40px;height:40px;background:rgba(255,255,255,.25)}.out small{color:rgba(255,255,255,.85);margin:0}.out p{margin:0;font-weight:700;font-size:18px;line-height:1.25}
+.dock{position:sticky;bottom:12px;display:flex;gap:10px;background:var(--wh);border:1.5px solid var(--ln);border-radius:24px;padding:10px}
+.dock button{flex:1;padding:14px;border-radius:16px;font-size:16px}
+.chaos{display:flex;gap:8px;margin:16px 0 4px}.chaos button{flex:1;padding:12px 8px;border-radius:14px;background:#F0F4FB;color:var(--ink)}.chaos .sel{background:var(--ink);color:var(--wh)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.tags span{font-size:12px;font-weight:700;background:var(--wh);border:1.5px solid var(--ln);border-radius:999px;padding:1px 10px;color:var(--mu)}
+.awards{margin-top:14px;background:#F0F4FB;border-radius:18px;padding:12px 16px}.awards p{margin:4px 0;font-weight:600;font-size:15px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header id="bar" class="hide"><span class="logo">Stille Post</span><span style="display:flex;gap:8px;align-items:center"><button class="ghost" id="fxBtn" style="padding:6px 12px;font-size:14px">Effekte an</button><span class="pill" id="roomPill"></span></span></header>
+
+<section id="home" class="stage">
+  <h1>Stille Post<span>des Alltags</span></h1>
+  <div class="hero" id="hero"></div>
+  <p class="mu">Ein Satz geht durch die Gruppe. Jede Station verändert ihn heimlich. Am Ende zeigt sich, was davon übrig ist.</p>
+  <input id="name" placeholder="Dein Name" maxlength="14" autocomplete="off">
+  <button class="cta or" id="create">Raum erstellen</button>
+  <div class="or-line">oder beitreten</div>
+  <div class="join"><input id="join" placeholder="CODE" maxlength="4" autocomplete="off"><button id="joinBtn">Los</button></div>
+  <p id="err" class="mu" style="margin:12px 0 0"></p>
+</section>
+
+<section id="lobby" class="stage hide">
+  <p class="mu" style="margin:0">Raumcode</p>
+  <div class="code" id="codeBig"></div>
+  <button class="ghost" id="copyLink">Einladungslink kopieren</button>
+  <h2 style="margin-top:24px">In der Lobby</h2>
+  <div class="avs" id="lobbyAv"></div>
+  <div class="hide" id="chaos"><p class="mu" style="margin:18px 0 0">Chaos-Level: wie stark die Rollen und Effekte zuschlagen</p><div class="chaos"><button>Ruhig</button><button>Normal</button><button>Wild</button></div></div>
+  <button class="cta or" id="start" disabled>Spiel starten</button>
+  <p class="mu" id="lobbyMsg" style="margin:12px 0 0"></p>
+</section>
+
+<section id="play" class="stage hide">
+  <div class="avs" id="avs"></div>
+  <div class="steps" id="steps"></div>
+  <h2 id="task"></h2>
+  <p class="mu" id="sub"></p>
+  <div id="turnUi" class="hide">
+    <div class="vm" id="hearBox"><button class="rb" id="hear" aria-label="Anhören"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><div class="wave" id="wv"></div><span class="mu" id="left"></span></div>
+    <button class="mic" id="mic" aria-label="Sprechen"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1A7 7 0 0 0 19 12z"/></svg></button>
+    <p class="ml" id="ml">Tippen und sprechen</p>
+    <div class="said hide" id="said"><small class="mu">Die Maschine hat verstanden</small><q id="saidTxt"></q><div class="cf" id="cfw"><i id="cf"></i></div><small class="mu" id="cfTxt"></small></div>
+    <button class="cta" id="send" disabled>Weitergeben</button>
+    <button class="ghost hide" id="idea" style="margin-top:10px">Satzidee</button>
+    <details><summary>Mikrofon geht nicht?</summary><div class="join"><input id="typed" placeholder="Satz eintippen"><button id="typeBtn">OK</button></div></details>
+  </div>
+</section>
+
+<section id="reveal" class="hide">
+  <div class="stage">
+    <h2 style="margin-top:0">Der große Reveal</h2>
+    <p class="mu" id="jump"></p>
+    <div class="stats"><div><b id="sDrift">0 %</b>Drift zum Original</div><div><b id="sRole">–</b>durch Rollen</div><div><b id="sNoise">–</b>durch Ohr und Maschine</div></div>
+    <svg viewBox="0 0 300 120" id="chart" role="img" aria-label="Drift-Kurve"></svg>
+    <div class="awards" id="awards"></div>
+  </div>
+  <div class="thread" id="cards"></div>
+  <div class="dock"><button class="cta or" style="margin:0" id="playBtn">Kette abspielen</button><button class="ghost" id="copyChain">Kette kopieren</button><button class="ghost" id="again">Neue Runde</button></div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const PC=["#3B5BFF","#FF6A2B","#12B886","#E64980","#7048E8","#F59F00","#0CA8C7","#D6336C"];
+$("hero").innerHTML="<i></i>".repeat(26);
+
+/* ---------- Text-Regeln ---------- */
+const TENSE={gibt:"gab",gab:"gibt",ist:"war",war:"ist",kommt:"kam",kam:"kommt",geht:"ging",ging:"geht",hat:"hatte",hatte:"hat",sind:"waren",waren:"sind",kann:"konnte",will:"wollte"};
+const TIME={heute:"morgen",morgen:"gestern",gestern:"heute",jetzt:"gleich",gleich:"jetzt",immer:"nie",nie:"immer",abends:"morgens",morgens:"abends"};
+const SOUND={pizza:"Pasta",kuchen:"Buchen",besuch:"Versuch",versuch:"Besuch",hund:"Mund",mund:"Hund",haus:"Maus",maus:"Haus",katze:"Tasche",tasche:"Katze",wein:"Bein",bein:"Wein",brot:"Boot",boot:"Brot",tisch:"Fisch",fisch:"Tisch",rad:"Rat",hose:"Dose",dose:"Hose",suppe:"Puppe",puppe:"Suppe",regen:"Segen",sonne:"Tonne",tonne:"Sonne",kaffee:"Koffer"};
+const MUT={b:"p",p:"b",d:"t",t:"d",g:"k",k:"g",s:"z",z:"s",f:"w",w:"f",m:"n",n:"m"};
+const NOUNS=["Zahnarzt","Pinguin","Staubsauger","Schwiegermutter","Trampolin","Gurkenglas","Kronleuchter"];
+const INT=["plötzlich","unfassbar","total","tatsächlich","absolut"];
+const tok=t=>t.replace(/[„“”"]/g,"").trim().split(/\s+/).filter(Boolean).map(w=>{const m=w.match(/^([^\p{L}\p{N}]*)([\p{L}\p{N}-]+)([^\p{L}\p{N}]*)$/u);return m?{a:m[1],w:m[2],z:m[3]}:{a:"",w,z:""}});
+const jn=a=>a.map(x=>x.a+x.w+x.z).join(" ");
+const cl=a=>a.map(x=>({...x}));
+const cs=(f,t)=>f[0]===f[0].toUpperCase()&&f[0]!==f[0].toLowerCase()?t[0].toUpperCase()+t.slice(1):t;
+const rep=(a,d,max)=>{let b=cl(a),n=0;shuf(b.map((_,i)=>i)).forEach(i=>{const k=b[i].w.toLowerCase();if(n<max&&d[k]){b[i].w=cs(b[i].w,d[k]);n++}});return n?b:null};
+const swap=a=>{if(a.length<2)return null;const b=cl(a),i=Math.floor(Math.random()*(a.length-1));[b[i].w,b[i+1].w]=[b[i+1].w,b[i].w];return b};
+const nusch=a=>rep(a,SOUND,2)||(()=>{const b=cl(a),c=b.map((x,i)=>x.w.length>3&&MUT[x.w[0].toLowerCase()]?i:-1).filter(i=>i>=0);if(!c.length)return null;const i=pick(c);b[i].w=cs(b[i].w,MUT[b[i].w[0].toLowerCase()]+b[i].w.slice(1));return b})();
+const dram=a=>{const b=cl(a);for(let k=0;k<2;k++)b.splice(1+Math.floor(Math.random()*Math.max(1,b.length-1)),0,{a:"",w:pick(INT),z:""});b[b.length-1].z="!";return b};
+const kurz=a=>{if(a.length<3)return null;let b=cl(a),n=Math.max(1,Math.floor(a.length*.4));while(n--&&b.length>2)b.splice(1+Math.floor(Math.random()*(b.length-1)),1);return b};
+const zeit=a=>{const x=rep(a,TIME,1),y=rep(x||a,TENSE,1);return y||x};
+const erf=a=>{const b=cl(a),c=b.map((x,i)=>i>0&&/^\p{Lu}/u.test(x.w)?i:-1).filter(i=>i>=0),i=c.length?pick(c):b.length-1;b[i].w=pick(NOUNS);return b};
+const fl=a=>{if(a.length<3)return null;const b=cl(a),z=b.pop().z;b[b.length-1].z=z;return b};
+const DENG={heute:"today",morgen:"tomorrow",gestern:"yesterday",gibt:"gives",es:"it",und:"and",ich:"I",wir:"we",nicht:"not",gut:"good",haus:"House",hund:"Dog",kaffee:"Coffee",kuchen:"Cake",besuch:"Visit",brot:"Bread",wasser:"Water",arbeit:"Work",freund:"Friend",kommt:"comes",geht:"goes",mit:"with"};
+const BIG={ein:"tausend",eine:"tausend",gut:"phänomenal",schlecht:"katastrophal",viel:"unendlich viel",groß:"riesig",klein:"winzig",schnell:"rasend schnell",heiß:"glühend heiß",kalt:"eiskalt",schön:"atemberaubend",müde:"todmüde",lecker:"unglaublich lecker"};
+const RHY={kuchen:"Buchen",besuch:"Versuch",haus:"Laus",hund:"Mund",brot:"Not",wein:"klein",tisch:"frisch",regen:"Segen",sonne:"Wonne",katze:"Glatze",kaffee:"Tee",zug:"Flug",bahn:"Zahn",nacht:"Macht",zeit:"weit",geld:"Welt",hand:"Sand",eis:"Preis",pizza:"Nizza",pasta:"Basta",fisch:"Tisch"};
+const stot=a=>{const b=cl(a),c=b.map((x,i)=>x.w.length>3?i:-1).filter(i=>i>=0);if(!c.length)return null;shuf(c).slice(0,2).forEach(i=>{const w=b[i].w;b[i].w=w.slice(0,2)+"-"+w.slice(0,2).toLowerCase()+"-"+w.toLowerCase()});return b};
+const schrei=a=>{const b=a.map(x=>({a:x.a,w:x.w.toUpperCase(),z:x.z}));b[b.length-1].z="!!";return b};
+const funk=a=>{if(a.length<3)return null;const b=cl(a);shuf(b.map((_,i)=>i).filter(i=>i>0)).slice(0,Math.max(1,Math.floor(a.length/3))).forEach(i=>{b[i].w="…"});return b};
+const deng=a=>rep(a,DENG,3);
+const uebertr=a=>rep(a,BIG,2)||(()=>{const b=cl(a);b.splice(Math.max(1,b.length-1),0,{a:"",w:"unfassbar",z:""});return b})();
+const vern=a=>{const i=a.findIndex(x=>/^(nicht|kein\w*)$/i.test(x.w)),b=cl(a);if(i>=0){b.splice(i,1);return b.length?b:null}const l=b.length-1;b.splice(l,0,{a:"",w:/^\p{Lu}/u.test(b[l].w)?"kein":"nicht",z:""});return b};
+const reim=a=>rep(a,RHY,1);
+const echoT=a=>{const b=cl(a),l=b[b.length-1];b[b.length-1]={a:l.a,w:l.w,z:","};b.push({a:"",w:l.w,z:l.z||"."});return b};
+/* v = Lautstärke (0 bis 1), p = Tonhöhe, r = Tempo, noise = Geräuschteppich, echo = Nachhall */
+const RL=(n,e,d,f,v,p,r,x)=>Object.assign({n,e,d,f,v,p,r},x||{});
+const ROLES=[
+ RL("Nuschler","🥴","verwechselt ähnlich klingende Wörter",nusch,.55,.8,1.35),
+ RL("Dramatiker","🎭","fügt Drama und Ausrufe hinzu",dram,1,1.5,1.1),
+ RL("Kürzer","✂️","lässt Wörter weg",kurz,.85,1,1.6),
+ RL("Zeitreisender","⏳","verschiebt Zeitform und Zeitangaben",zeit,.7,.55,.8),
+ RL("Tauscher","🔀","vertauscht Wörter",swap,.8,1.15,1),
+ RL("Erfinder","💡","erfindet ein neues Hauptwort",erf,1,1.8,.95),
+ RL("Flüsterer","🤫","flüstert und verschluckt das Satzende",fl,.2,1.25,.85,{noise:"wind"}),
+ RL("Stotterer","💬","bleibt an Silben hängen",stot,.8,1.3,1.1),
+ RL("Schreihals","📢","brüllt alles in Großbuchstaben",schrei,1,1.2,1.25),
+ RL("Funkstörung","📻","verschluckt Wörter im Rauschen",funk,.7,1,1,{noise:"static"}),
+ RL("Denglisch-Roboter","🤖","übersetzt Wörter ins Englische",deng,.9,.6,.9),
+ RL("Übertreiber","🎉","macht alles maßlos groß",uebertr,1,1.35,1.2),
+ RL("Verneiner","🙅","dreht Aussagen ins Gegenteil",vern,.75,.65,.9),
+ RL("Reimer","🎤","ersetzt Wörter durch Reime",reim,.9,1.6,1.05),
+ RL("Echo","🔁","wiederholt das letzte Wort",echoT,.85,1,.9,{echo:true})];
+const SND=["Rohrpost","Telefon","Münzeinwurf","Kassette","Funkspruch","Blubb","Fahrstuhl","Modem","Zauberstab"];
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+function mkFx(R,ch,vi){
+  const j=k=>1+(Math.random()-.5)*k;
+  const fx={v:clamp(R.v*j(.3),.12,1),p:clamp(R.p*j(.25),.1,2),r:clamp(R.r*j(.2),.5,2),noise:R.noise||"",echo:!!R.echo,vi,tag:[]};
+  if(Math.random()<[.12,.3,.5][ch]){const k=pick(["leise","laut","Rauschen","Echo","tief","hoch"]);
+    if(k==="leise")fx.v=clamp(fx.v*.4,.12,1);if(k==="laut"){fx.v=1;fx.r*=1.1}if(k==="Rauschen")fx.noise="static";if(k==="Echo")fx.echo=true;if(k==="tief")fx.p=.5;if(k==="hoch")fx.p=1.9;
+    fx.tag.push("Zufallseffekt: "+k)}
+  return fx}
+function fxLabels(fx){const l=[];if(fx.v<.3)l.push("flüsternd");else if(fx.v<.6)l.push("leise");else if(fx.v>.95)l.push("laut");if(fx.noise==="static")l.push("Rauschen");if(fx.noise==="wind")l.push("Hauch");if(fx.echo)l.push("Echo");if(fx.r>1.4)l.push("hastig");if(fx.r<.8)l.push("schleppend");if(fx.p<.65)l.push("tief");if(fx.p>1.6)l.push("piepsig");return l}
+function transform(r,text,ch){
+  const Rl=ROLES[r],a=tok(text),tags=[],fx=mkFx(Rl,ch,r),snd=Math.floor(Math.random()*SND.length);
+  if(!a.length)return{out:text,tags,fx,snd};
+  if(Math.random()<[.25,.12,.04][ch]){tags.push("unverändert durchgereicht");return{out:/[.!?]$/.test(text)?text:text+".",tags,fx,snd}}
+  let b=Rl.f(a);if(!b||jn(b)===jn(a))b=swap(a)||cl(a);
+  if(Math.random()<[.1,.3,.55][ch]){const x=swap(b);if(x){b=x;tags.push("zusätzlich ein Wort getauscht")}}
+  if(Math.random()<[.05,.2,.4][ch]){const x=nusch(b);if(x){b=x;tags.push("zusätzlich verhört")}}
+  if(jn(b)===jn(a))b=[...cl(a),{a:"",w:"wirklich",z:""}];
+  let o=jn(b).replace(/…[.!?,]+/g,"…");if(!/[.!?…]$/.test(o))o+=".";
+  return{out:o,tags,fx,snd}}
+
+/* ---------- Distanz ---------- */
+const norm=s=>s.toLowerCase().replace(/[^\p{L}\p{N} ]/gu,"").trim();
+function lev(a,b){let p=Array.from({length:b.length+1},(_,j)=>j);for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]}
+const dist=(a,b)=>{a=norm(a);b=norm(b);return Math.min(1,lev(a,b)/Math.max(a.length,b.length,1))};
+
+/* ---------- Klang ---------- */
+let ac,voices=[],fxOn=true,nbuf;
+const loadV=()=>voices=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.startsWith("de"));
+if("speechSynthesis" in window){loadV();speechSynthesis.onvoiceschanged=loadV}
+function ctx(){try{ac=ac||new AudioContext();if(ac.state==="suspended")ac.resume();return ac}catch(e){return null}}
+document.addEventListener("click",ctx);
+function tone(f1,f2,d,type,g,t0){const a=ctx();if(!a)return;const t=a.currentTime+(t0||0),o=a.createOscillator(),n=a.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f1,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);n.gain.setValueAtTime(g,t);n.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(n).connect(a.destination);o.start(t);o.stop(t+d+.02)}
+function noise(d,ft,f1,f2,g,t0){const a=ctx();if(!a)return null;
+  nbuf=nbuf||(()=>{const b=a.createBuffer(1,a.sampleRate*2,a.sampleRate),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1;return b})();
+  const t=a.currentTime+(t0||0),s=a.createBufferSource(),f=a.createBiquadFilter(),n=a.createGain();s.buffer=nbuf;s.loop=true;f.type=ft;f.frequency.setValueAtTime(f1,t);if(f2)f.frequency.exponentialRampToValueAtTime(f2,t+d);
+  n.gain.setValueAtTime(g,t);n.gain.setValueAtTime(g,t+d*.8);n.gain.exponentialRampToValueAtTime(.0008,t+d);s.connect(f).connect(n).connect(a.destination);s.start(t);s.stop(t+d+.02);
+  return{stop:()=>{try{n.gain.cancelScheduledValues(a.currentTime);n.gain.setTargetAtTime(0,a.currentTime,.05);s.stop(a.currentTime+.4)}catch(e){}}}}
+/* neun Übergabegeräusche, passend zu SND */
+const PASS=[
+ ()=>{noise(.5,"bandpass",300,3000,.25);tone(90,45,.25,"sine",.4,.45)},
+ ()=>{[0,.45].forEach(t=>{tone(440,0,.3,"sine",.15,t);tone(480,0,.3,"sine",.15,t)})},
+ ()=>{tone(1760,0,.25,"square",.07);tone(2349,0,.5,"square",.07,.09)},
+ ()=>{noise(.05,"highpass",3000,0,.4);noise(.35,"bandpass",1500,0,.12,.05);noise(.05,"highpass",3000,0,.4,.4)},
+ ()=>{tone(1000,0,.12,"sine",.15);tone(1000,0,.12,"sine",.15,.2);noise(.4,"highpass",1800,0,.08,.35)},
+ ()=>{tone(200,900,.18,"sine",.3);tone(300,1100,.14,"sine",.25,.2)},
+ ()=>{tone(880,0,.7,"sine",.2);tone(1318,0,.9,"sine",.14,.25)},
+ ()=>{for(let i=0;i<8;i++)tone(i%2?1200:2100,0,.05,"square",.05,i*.06)},
+ ()=>{[523,659,784,1047,1319].forEach((f,i)=>tone(f,0,.25,"triangle",.14,i*.07))}];
+const pass=i=>{if(fxOn&&PASS[i])PASS[i]()};
+function wave(t,v){let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;const s=Array.from({length:32},()=>{h=(h*1103515245+12345)>>>0;return'<i style="height:'+Math.round((20+(h>>>8)%80)*(.3+.7*v))+'%"></i>'}).join("");return'<div class="bars">'+s+'</div><div class="bars fg">'+s+"</div>"}
+function say(text,fx,done,wv,snd){
+  if(!("speechSynthesis" in window)){done&&done();return}
+  speechSynthesis.cancel();if(snd!=null)pass(snd);
+  setTimeout(()=>{
+    let bed=null;
+    if(fxOn&&fx.noise)bed=fx.noise==="static"?noise(60,"highpass",2200,0,.06):noise(60,"bandpass",1400,0,.04);
+    const end=()=>{bed&&bed.stop();done&&done()};
+    const u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.pitch=fx.p;u.rate=fx.r;u.volume=fx.v;
+    if(voices.length)u.voice=voices[(fx.vi||0)%voices.length];
+    if(wv){wv.classList.remove("play");void wv.offsetWidth;wv.style.setProperty("--d",Math.max(1.2,text.length*.075/fx.r)+"s");wv.classList.add("play")}
+    u.onend=u.onerror=()=>{if(fx.echo){const e=new SpeechSynthesisUtterance(text.replace(/[.!?…]+$/,"").split(" ").slice(-2).join(" "));e.lang="de-DE";e.pitch=fx.p;e.rate=fx.r*.9;e.volume=fx.v*.4;e.onend=e.onerror=end;speechSynthesis.speak(e)}else end()};
+    speechSynthesis.speak(u)},snd!=null&&fxOn?700:50);
+}
+
+/* ---------- Netzwerk ---------- */
+let isHost=false,peer,hostConn,players=[],roles=[],steps=[],pending=null,code="",chaos=1;
+const show=id=>{["home","lobby","play","reveal"].forEach(s=>$(s).classList.toggle("hide",s!==id));$("bar").classList.toggle("hide",id==="home");$("roomPill").textContent=code};
+const toHost=m=>isHost?hostRecv(m,0):hostConn.send(m);
+const sendTo=(i,m)=>i===0?onMsg(m):players[i].conn.send(m);
+const all=m=>players.forEach((_,i)=>sendTo(i,m));
+const mkCode=()=>Array.from({length:4},()=>"ABCDEFGHJKLMNPQRSTUVWXYZ"[Math.floor(Math.random()*24)]).join("");
+const nm=()=>($("name").value.trim()||"Spieler");
+const lobbyUpdate=()=>all({t:"lobby",names:players.map(p=>p.name),code,chaos});
+function hostStart(){
+  isHost=true;code=mkCode();peer=new Peer("stillepost-"+code);
+  peer.on("error",e=>{if(e.type==="unavailable-id")hostStart();else $("err").textContent="Verbindungsfehler: "+e.type});
+  peer.on("open",()=>{players=[{name:nm()}];lobbyUpdate()});
+  peer.on("connection",c=>{
+    c.on("data",m=>{
+      if(m.t==="join"){if(roles.length){c.send({t:"err",m:"Das Spiel läuft schon."});return}players.push({name:String(m.name).slice(0,14),conn:c});lobbyUpdate()}
+      else hostRecv(m,players.findIndex(p=>p.conn===c))});
+    c.on("close",()=>{if(!roles.length){players=players.filter(p=>p.conn!==c);lobbyUpdate()}});
+  });
+}
+function join(c){
+  isHost=false;peer=new Peer();
+  peer.on("error",e=>{$("err").textContent=e.type==="peer-unavailable"?"Raum nicht gefunden.":"Verbindungsfehler: "+e.type});
+  peer.on("open",()=>{hostConn=peer.connect("stillepost-"+c,{reliable:true});
+    hostConn.on("open",()=>{code=c;hostConn.send({t:"join",name:nm()})});
+    hostConn.on("data",onMsg);
+    hostConn.on("close",()=>{$("task").textContent="Verbindung zum Raum verloren."})});
+}
+function hostRecv(m,i){
+  if(m.t==="said"){const r=roles[i],res=transform(r,m.text,chaos);steps.push({name:players[i].name,heard:pending,said:m.text,conf:m.conf,role:r,out:res.out,tags:res.tags,fx:res.fx,snd:res.snd});nextTurn(i+1,res.out,res.fx,res.snd)}
+}
+function startGame(){
+  let pool=[];while(pool.length<players.length)pool=pool.concat(shuf(ROLES.map((_,i)=>i)));
+  roles=pool.slice(0,players.length);steps=[];nextTurn(0,null);
+}
+function nextTurn(i,text,fx,snd){
+  pending=text;
+  if(i>=players.length){all({t:"reveal",steps});return}
+  const names=players.map(p=>p.name);
+  players.forEach((p,j)=>sendTo(j,j===i?{t:"turn",heard:text,fx,snd,i,names}:{t:"wait",who:names[i],i,names}));
+}
+
+/* ---------- Client ---------- */
+let heard=null,hfx=null,hsnd=0,hears=0,rec=null,listening=false,sp=null,L=[],cur=0;
+const avs=(names,cur)=>names.map((n,i)=>'<div class="a '+(i<cur?"done":i===cur?"cur":"todo")+'"><div class="av" style="--c:'+PC[i%PC.length]+'">'+esc((n[0]||"?").toUpperCase())+"</div>"+esc(n)+"</div>").join("");
+function setSteps(k){cur=k;$("steps").innerHTML=L.map((s,i)=>'<span class="st '+(i<k?"ok":i===k?"on":"")+'">'+(i<k?"✓ ":"")+s+"</span>").join("")}
+function onMsg(m){
+  if(m.t==="lobby"){code=m.code;show("lobby");
+    $("codeBig").innerHTML=m.code.split("").map(c=>"<b>"+c+"</b>").join("");
+    $("lobbyAv").innerHTML=avs(m.names,-1).replace(/todo/g,"");
+    $("start").classList.toggle("hide",!isHost);$("start").disabled=m.names.length<2;$("chaos").classList.toggle("hide",!isHost);[...$("chaos").querySelectorAll("button")].forEach((b,i)=>b.classList.toggle("sel",i===m.chaos));
+    $("lobbyMsg").textContent=isHost?(m.names.length<2?"Warte auf mindestens eine weitere Person.":"Bereit. Mit 3 bis 6 Personen macht es am meisten Spaß."):"Warte, bis der Host das Spiel startet."}
+  if(m.t==="err"){show("home");$("err").textContent=m.m}
+  if(m.t==="wait"){show("play");$("turnUi").classList.add("hide");$("avs").innerHTML=avs(m.names,m.i);$("steps").innerHTML="";$("task").textContent=m.who+" ist dran";$("sub").textContent="Station "+(m.i+1)+" von "+m.names.length+". Gleich geht es bei dir weiter."}
+  if(m.t==="turn"){
+    show("play");heard=m.heard;hfx=m.fx;hsnd=m.snd;hears=0;sp=null;
+    $("avs").innerHTML=avs(m.names,m.i);$("turnUi").classList.remove("hide");$("send").disabled=true;$("said").classList.add("hide");
+    $("ml").textContent="Tippen und sprechen";$("mic").classList.remove("on");
+    L=heard?["Zuhören","Sprechen","Weitergeben"]:["Sprechen","Weitergeben"];setSteps(0);
+    $("task").textContent=heard?"Du bist dran":"Du startest";
+    $("sub").textContent=heard?"Hör gut zu. Manche Stationen sprechen leise. Sag dann, was du verstanden hast.":"Sprich einen Satz aus deinem Alltag, z. B. was es heute zu essen gibt.";
+    $("hearBox").classList.toggle("hide",!heard);$("idea").classList.toggle("hide",!!heard);
+    if(heard){$("wv").innerHTML=wave(heard,hfx.v);$("hear").disabled=false;setTimeout(doHear,400)}}
+  if(m.t==="reveal")showReveal(m.steps);
+}
+function doHear(){
+  if(hears>=3||!heard)return;hears++;$("left").textContent=hears<3?"noch "+(3-hears)+"×":"";if(hears>=3)$("hear").disabled=true;
+  say(heard,hfx,()=>{if(cur<1)setSteps(1)},$("wv"),hsnd);
+}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function startRec(){
+  if(!SR){$("ml").textContent="Dieser Browser kann keine Spracherkennung. Nutze das Textfeld.";return}
+  speechSynthesis.cancel();rec=new SR();rec.lang="de-DE";rec.interimResults=true;
+  let t="",c=null;
+  rec.onstart=()=>{listening=true;$("mic").classList.add("on");$("ml").textContent="Ich höre zu …";if(heard&&cur<1)setSteps(1)};
+  rec.onresult=e=>{t="";for(let i=0;i<e.results.length;i++){t+=e.results[i][0].transcript;c=e.results[i][0].confidence}$("ml").textContent="„"+t+"“"};
+  rec.onerror=e=>{$("ml").textContent={"not-allowed":"Mikrofon blockiert. Erlaube den Zugriff in der Adressleiste.","no-speech":"Nichts gehört. Tipp nochmal.","audio-capture":"Kein Mikrofon gefunden."}[e.error]||"Fehler: "+e.error};
+  rec.onend=()=>{listening=false;$("mic").classList.remove("on");if(t.trim())take(t.trim(),c);else if($("ml").textContent==="Ich höre zu …")$("ml").textContent="Tippen und sprechen"};
+  rec.start();
+}
+function take(t,c){
+  sp={text:/[.!?]$/.test(t)?t:t+".",conf:c};$("ml").textContent="Nochmal sprechen";
+  $("said").classList.remove("hide");$("saidTxt").textContent=sp.text;
+  $("cfw").classList.toggle("hide",c==null);$("cfTxt").textContent=c==null?"":"Sicherheit der Erkennung: "+Math.round(c*100)+" %. Passt es nicht, sprich nochmal.";
+  $("cf").style.width=(c||0)*100+"%";$("send").disabled=false;setSteps(L.length-1);
+}
+
+/* ---------- Reveal ---------- */
+let ST=[];
+function showReveal(st){
+  ST=st;show("reveal");const n=st.length,seq=[st[0].said,...st.slice(1).map(s=>s.said),st[n-1].out],d=seq.map(s=>dist(seq[0],s));
+  const pts=d.map((v,i)=>[14+i*(272/Math.max(1,d.length-1)),104-v*90]);
+  $("chart").innerHTML='<path d="M14,104 L'+pts.map(p=>p.join(",")).join(" L")+' L286,104Z" fill="#FF6A2B" opacity=".14"/><line x1="14" y1="104" x2="286" y2="104" stroke="#0B1F3A" opacity=".2"/><polyline fill="none" stroke="#FF6A2B" stroke-width="3.5" stroke-linejoin="round" points="'+pts.map(p=>p.join(",")).join(" ")+'"/>'+pts.map((p,i)=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="#fff" stroke="#0B1F3A" stroke-width="2"><title>'+esc(seq[i])+"</title></circle>").join("");
+  let best=0,bi=0;for(let k=1;k<d.length;k++){const j=Math.abs(d[k]-d[k-1]);if(j>best){best=j;bi=k-1}}
+  $("jump").textContent="Größter Sprung nach Station "+(bi+1)+": "+st[bi].name+" als "+ROLES[st[bi].role].n+".";
+  let rs=0,ns=0;st.forEach((s,i)=>{rs+=dist(s.said,s.out);if(i>0)ns+=dist(s.heard,s.said)});const tot=rs+ns||1;
+  $("sDrift").textContent=Math.round(d[d.length-1]*100)+" %";$("sRole").textContent=Math.round(rs/tot*100)+" %";$("sNoise").textContent=Math.round(ns/tot*100)+" %";
+  const rows=st.map((s,i)=>({n:s.name,r:ROLES[s.role].n,m:dist(s.said,s.out),h:i>0?dist(s.heard,s.said):null})),hs=rows.filter(x=>x.h!=null),mx=rows.reduce((p,q)=>q.m>p.m?q:p),aw=["🏆 Größter Verdreher: "+mx.n+" als "+mx.r];
+  if(hs.length){const bad=hs.reduce((p,q)=>q.h>p.h?q:p),good=hs.reduce((p,q)=>q.h<p.h?q:p);aw.push("👂 Schwerhörigste Station: "+bad.n+" ("+Math.round(bad.h*100)+" % daneben)","🎯 Treuester Überträger: "+good.n+" ("+Math.round(good.h*100)+" % daneben)")}
+  $("awards").innerHTML=aw.map(x=>"<p>"+esc(x)+"</p>").join("");
+  $("cards").innerHTML=st.map((s,i)=>{const R=ROLES[s.role],c=PC[i%PC.length],tg=fxLabels(s.fx).concat(s.tags||[],s.fx.tag||[],["Übergabe: "+SND[s.snd]]);
+    return'<article class="msg" id="k'+i+'" style="--c:'+c+'"><div class="av" style="--c:'+c+'">'+esc((s.name[0]||"?").toUpperCase())+'</div><div class="body"><div class="meta"><b>'+esc(s.name)+'</b><span class="chip">'+R.e+" "+R.n+"</span></div>"+
+    (s.heard?'<p class="heard">Gehört: „'+esc(s.heard)+"“</p>":"")+
+    '<div class="bub">„'+esc(s.said)+"“<small>So hat die Maschine es verstanden"+(s.conf?" ("+Math.round(s.conf*100)+" %)":"")+"</small></div>"+
+    '<div class="out"><button class="rb" data-i="'+i+'" aria-label="Abspielen"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><div><small>'+R.d+"</small><p>„"+esc(s.out)+"“</p></div></div>"+
+    '<div class="tags">'+tg.map(t=>"<span>"+esc(t)+"</span>").join("")+"</div></div></article>"}).join("");
+}
+$("cards").onclick=e=>{const b=e.target.closest("[data-i]");if(b){const s=ST[b.dataset.i];say(s.out,s.fx,null,null,s.snd)}};
+function playChain(){
+  ST.forEach((_,i)=>$("k"+i).classList.add("hide"));$("playBtn").disabled=true;
+  (function go(i){
+    document.querySelectorAll(".msg.now").forEach(x=>x.classList.remove("now"));
+    if(i>=ST.length){$("playBtn").disabled=false;return}
+    const k=$("k"+i);k.classList.remove("hide");k.classList.add("now");k.scrollIntoView({behavior:"smooth",block:"center"});
+    say(ST[i].out,ST[i].fx,()=>setTimeout(()=>go(i+1),500),null,ST[i].snd);
+  })(0);
+}
+
+/* ---------- Events ---------- */
+$("create").onclick=()=>{$("err").textContent="";hostStart()};
+$("joinBtn").onclick=()=>{const c=$("join").value.trim().toUpperCase();if(c.length!==4){$("err").textContent="Der Code hat 4 Buchstaben.";return}$("err").textContent="";join(c)};
+$("start").onclick=startGame;
+$("hear").onclick=doHear;
+$("mic").onclick=()=>listening?rec.stop():startRec();
+$("typeBtn").onclick=()=>{const v=$("typed").value.trim();if(v){take(v,null);$("typed").value=""}};
+$("send").onclick=()=>{if(!sp)return;pass(Math.floor(Math.random()*PASS.length));toHost({t:"said",text:sp.text,conf:sp.conf});sp=null;$("turnUi").classList.add("hide");$("task").textContent="Weitergegeben";$("sub").textContent="Warte, bis die anderen fertig sind.";$("steps").innerHTML=""};
+$("playBtn").onclick=playChain;
+$("again").onclick=()=>{if(isHost){roles=[];startGame()}else $("jump").textContent="Die neue Runde startet der Host."};
+$("copyLink").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(location.origin+location.pathname+"?raum="+code);$("copyLink").textContent="Link kopiert"};
+const IDEAS=["Heute gibt es Pizza zum Abendessen.","Ich habe meinen Schlüssel im Bus liegen lassen.","Morgen kommt die Oma zu Besuch.","Der Zug nach Stuttgart hat zehn Minuten Verspätung.","Bring bitte Milch, Brot und Eier mit.","Ich bin gleich da, ich suche nur noch einen Parkplatz.","Meine Katze hat den Kuchen gegessen."];
+document.querySelectorAll("#chaos button").forEach((b,i)=>b.onclick=()=>{if(isHost){chaos=i;lobbyUpdate()}});
+$("idea").onclick=()=>{$("sub").textContent="Idee: „"+pick(IDEAS)+"“"};
+$("fxBtn").onclick=()=>{fxOn=!fxOn;$("fxBtn").textContent=fxOn?"Effekte an":"Effekte aus"};
+$("copyChain").onclick=()=>{const t=ST.map((s,i)=>(i+1)+". "+s.name+" ("+ROLES[s.role].n+"): „"+s.out+"“").join("\n");(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$("copyChain").textContent="Kopiert"},()=>prompt("Kette:",t))};
+const q=new URLSearchParams(location.search).get("raum");if(q)$("join").value=q.toUpperCase();
+})();
+</script>
+</body>
+</html>
